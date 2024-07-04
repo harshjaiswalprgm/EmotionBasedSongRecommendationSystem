@@ -1,0 +1,41 @@
+Sure, let's go through the important parts of this code:
+
+1. **Import Libraries**:
+   - `cv2`, `numpy`, `mediapipe`: Importing necessary libraries for computer vision tasks and data manipulation.
+   - `load_model` from `keras.models`: Loading a pre-trained neural network model saved with Keras.
+
+2. **Load Model and Labels**:
+   - `model = load_model("model.h5")`: Loads the pre-trained neural network model from the file "model.h5".
+   - `label = np.load("labels.npy")`: Loads the labels from the file "labels.npy" into a NumPy array.
+
+3. **Initialize MediaPipe Holistic Model and Video Capture**:
+   - `holis = holistic.Holistic()`: Initializes a MediaPipe Holistic model for detecting facial landmarks, hand landmarks, and body pose.
+   - `cap = cv2.VideoCapture(0)`: Opens the default camera (index 0) for capturing video frames.
+
+4. **Main Loop**:
+   - Enters an infinite loop for continuously capturing frames and processing them.
+   - `lst = []`: Initializes an empty list for storing features of each frame.
+
+5. **Read Frame and Preprocessing**:
+   - `_, frm = cap.read()`: Reads a frame from the camera.
+   - `frm = cv2.flip(frm, 1)`: Flips the frame horizontally.
+
+6. **Process Frame with MediaPipe Holistic**:
+   - `res = holis.process(cv2.cvtColor(frm, cv2.COLOR_BGR2RGB))`: Processes the frame using the MediaPipe Holistic model to detect facial landmarks, hand landmarks, and body pose.
+
+7. **Extract Features and Make Prediction**:
+   - Extracts facial landmarks and hand landmarks similar to the training code.
+   - Reshapes the extracted features into a 2D NumPy array.
+   - Makes a prediction using the loaded model (`model.predict(lst)`), and retrieves the corresponding label from the `label` array.
+   - Draws the predicted label on the frame using `cv2.putText()`.
+
+8. **Visualize Landmarks**:
+   - Draws facial landmarks, left hand landmarks, and right hand landmarks on the frame using `drawing.draw_landmarks()`.
+
+9. **Display Frame**:
+   - Displays the annotated frame in a window named "window" using `cv2.imshow()`.
+
+10. **Exit Condition**:
+    - Breaks the loop if the 'Esc' key is pressed (`cv2.waitKey(1) == 27`).
+
+This code essentially loads a pre-trained model and labels, captures video frames, processes them using MediaPipe Holistic to extract features, makes predictions using the loaded model, and displays the annotated frames with predicted labels.

@@ -1,0 +1,51 @@
+Certainly! Let's dissect this code step by step:
+
+1. **Import Libraries**:
+   - `os`: Provides functions for interacting with the operating system.
+   - `numpy`: For numerical operations.
+   - `cv2`: OpenCV library for computer vision tasks.
+   - `tensorflow`: Deep learning framework.
+   - `tensorflow.keras.utils`: Utilities for the Keras API.
+   - `Input`, `Dense`, `Model` from `keras.layers` and `keras.models`: Components of a neural network model in Keras.
+
+2. **Initialization**:
+   - `is_init = False`: Flag to check if initialization has been done.
+   - `size = -1`: Variable to store the size of the data.
+   - `label = []`: Empty list to store labels.
+   - `dictionary = {}`: Empty dictionary to store mapping of labels to integers.
+   - `c = 0`: Counter variable.
+
+3. **Data Loading and Preprocessing**:
+   - Loops through files in the current directory.
+   - Checks if the file has a ".npy" extension and is not named "labels.npy".
+   - Concatenates the data (`X`) and labels (`y`) from each ".npy" file.
+   - Constructs labels (`y`) based on the filenames.
+   - Builds a dictionary to map unique labels to integers.
+
+4. **Label Encoding**:
+   - Converts label strings to integers using the constructed dictionary.
+   - One-hot encodes the integer labels using `to_categorical()` from Keras utilities.
+
+5. **Shuffling Data**:
+   - Creates an array `cnt` containing indices.
+   - Shuffles the indices randomly.
+   - Shuffles the data (`X`) and labels (`y`) using the shuffled indices.
+
+6. **Model Building**:
+   - Defines the input layer with shape `(X.shape[1],)` using `Input`.
+   - Adds two fully connected (Dense) layers with ReLU activation.
+   - Adds an output layer with softmax activation to output probabilities for each class.
+   - Constructs the model using `Model`.
+
+7. **Model Compilation**:
+   - Compiles the model with the RMSprop optimizer and categorical crossentropy loss.
+   - Specifies accuracy as the evaluation metric.
+
+8. **Model Training**:
+   - Fits the model to the training data (`X`, `y`) for 50 epochs.
+
+9. **Model Saving**:
+   - Saves the trained model to a file named "model.h5" using `model.save()`.
+   - Saves the list of labels to a NumPy file named "labels.npy".
+
+This code essentially loads data from ".npy" files, preprocesses it, builds and trains a neural network model using Keras, and then saves the trained model along with label information.

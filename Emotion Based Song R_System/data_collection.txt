@@ -1,0 +1,56 @@
+Sure, let's break down the code step by step:
+
+1. **Import Libraries**:
+   - `mediapipe`: A Python framework for building multimodal (e.g., holistic, face, hand) perceptual AI pipelines.
+   - `numpy`: A library for numerical operations in Python.
+   - `cv2`: OpenCV library for computer vision tasks.
+
+2. **Open Video Capture**:
+   - `cv2.VideoCapture(0)`: Opens the default camera (index 0) for capturing video frames.
+
+3. **User Input**:
+   - `name = input("Enter the name of the data : ")`: Prompts the user to enter a name for the data file.
+
+4. **Initialize MediaPipe Holistic Model**:
+   - `holistic.Holistic()`: Initializes a MediaPipe Holistic model for detecting facial landmarks, hand landmarks, and body pose.
+
+5. **Initialize Lists**:
+   - `X = []`: Initializes an empty list `X` to store the extracted features.
+   - `data_size = 0`: Initializes a variable to keep track of the number of samples collected.
+
+6. **Main Loop**:
+   - `while True:`: Enters an infinite loop for continuously capturing frames and processing them.
+   - `lst = []`: Initializes an empty list for storing features of each frame.
+
+7. **Read Frame and Preprocessing**:
+   - `_, frm = cap.read()`: Reads a frame from the camera.
+   - `frm = cv2.flip(frm, 1)`: Flips the frame horizontally.
+
+8. **Process Frame with MediaPipe Holistic**:
+   - `res = holis.process(cv2.cvtColor(frm, cv2.COLOR_BGR2RGB))`: Processes the frame using the MediaPipe Holistic model to detect facial landmarks, hand landmarks, and body pose.
+
+9. **Extract Features**:
+   - Extracts facial landmarks and calculates their relative positions with respect to the second landmark (`res.face_landmarks.landmark[1]`).
+   - Extracts left and right hand landmarks and calculates their relative positions with respect to the eighth landmark (`res.left_hand_landmarks.landmark[8]` and `res.right_hand_landmarks.landmark[8]`).
+   - Appends these relative positions to the `lst`.
+
+10. **Update Data**:
+    - Appends `lst` to `X`.
+    - Increments `data_size` to keep track of the number of samples collected.
+
+11. **Visualize Landmarks**:
+    - Draws facial landmarks, left hand landmarks, and right hand landmarks on the frame using `drawing.draw_landmarks()`.
+
+12. **Display Frame**:
+    - Displays the annotated frame in a window named "window" using `cv2.imshow()`.
+
+13. **Exit Condition**:
+    - Breaks the loop if the 'Esc' key is pressed (`cv2.waitKey(1) == 27`) or if `data_size` exceeds 99.
+
+14. **Save Data**:
+    - Saves the collected features (`X`) as a NumPy array in a file named `{name}.npy`.
+
+15. **Print Shape of Data**:
+    - Prints the shape of the collected features array (`X`) using `np.array(X).shape`.
+
+This code essentially captures video frames, extracts facial and hand landmarks using the MediaPipe Holistic model, calculates relative positions of these landmarks, and saves them as a NumPy array.
